@@ -29,7 +29,7 @@ public class Movimiento {
 
   public boolean fueExtraido(LocalDate fecha) {
     return isExtraccion() && esDeLaFecha(fecha);
-  }
+  } //Se puede usar en el filter para que quede mejor abstraido
 
   public boolean esDeLaFecha(LocalDate fecha) {
     return this.fecha.equals(fecha);
@@ -46,7 +46,7 @@ public class Movimiento {
   public void agregateA(Cuenta cuenta) {
     cuenta.setSaldo(calcularValor(cuenta));
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
-  }
+  } //MALISIMO, La cuenta lo tiene que agregar
 
   public double calcularValor(Cuenta cuenta) {
     if (esDeposito) {

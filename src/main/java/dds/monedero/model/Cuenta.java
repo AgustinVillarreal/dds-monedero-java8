@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Cuenta {
 
-  private double saldo = 0;
+  private double saldo = 0; //Code smell, ya esta en el constructor
   private List<Movimiento> movimientos = new ArrayList<>();
 
   public Cuenta() {
@@ -26,7 +26,7 @@ public class Cuenta {
     this.movimientos = movimientos;
   }
 
-  public void poner(double cuanto) {
+  public void poner(double cuanto) { //Poca expresividad poner por realizarDeposito cuanto por cantidad
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
@@ -34,6 +34,7 @@ public class Cuenta {
     if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
+
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
@@ -58,6 +59,9 @@ public class Cuenta {
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
     movimientos.add(movimiento);
   }
+
+//PENSAR ABSTRACCION PARA SACAR; PONER Y AGREGARMOVIMIENTO
+
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
