@@ -13,22 +13,19 @@ import java.util.stream.Stream;
 
 public class Cuenta {
 
-  private BigDecimal saldo = 0; //Code smell, ya esta en el constructor
+  private BigDecimal saldo;
   private List<Movimiento> movimientos = new ArrayList<>();
 
   public Cuenta() {
-    saldo = 0;
+    saldo = BigDecimal.ZERO;
   }
 
   public Cuenta(BigDecimal montoInicial) {
     saldo = montoInicial;
   }
 
-  public void setMovimientos(List<Movimiento> movimientos) {
-    this.movimientos = movimientos;
-  }
 
-  public void depositar(BigDecimal cantidadDepositada) { //Poca expresividad poner por realizarDeposito cuanto por cantidad
+  public void depositar(BigDecimal cantidadDepositada) {
     validarMonto(cantidadDepositada);
     validarCantidadDeMovimientos();
     agregarMovimiento(LocalDate.now(), cantidadDepositada, true );
@@ -89,7 +86,7 @@ public class Cuenta {
 
   private Stream<Movimiento> extraccionesA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha));
+        .filter(movimiento -> movimiento.fueExtraido(fecha));
   }
 
   public List<Movimiento> getMovimientos() {
